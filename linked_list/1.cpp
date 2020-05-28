@@ -128,6 +128,87 @@ void insertAtLast(int value){
         last = newNode;
     }  
 };
+void insertInSorted(Node *ptr, int value){
+    Node* follower=NULL;
+    Node* newNode= new Node;
+    newNode->data = value;
+    if(head == NULL){ // if there is no node initially then
+        head = newNode;
+    }else{
+        while(ptr != NULL && ptr->data < value){
+            follower = ptr; // moving follower and ptr till we reach the end or
+            ptr= ptr->next; // find the ptr such that ptr->data > value
+        } if ( ptr == head ){
+            newNode->next = ptr;
+            head = newNode;
+        } else{
+            newNode->next = follower->next;
+            follower->next = newNode;
+
+        }
+    }
+};
+void isSorted(Node * ptr){
+    int temp = INT32_MIN; // this is to store the value of ptr->data
+    while(ptr != NULL){
+        if( ptr->data < temp ){
+            cout<<"Not sorted"<<endl;
+            return;
+        }
+        temp = ptr->data;
+        ptr = ptr->next;
+    }
+    cout<<"Sorted"<<endl;
+};
+void deleteElement(Node*ptr, int pos){
+    int temp = 0;
+    Node* follower = NULL;
+    if(pos == 1){
+        // delete first node
+        temp = ptr->data;
+        head = ptr->next;
+        delete ptr;         
+        cout<<"Node with data = "<<temp<<" was deleted"<<endl;
+        return;
+    } else{
+        for(int i=0; i<pos-1; i++){
+            follower = ptr;
+            ptr= ptr->next;
+        }
+        follower->next = ptr->next;
+        temp = ptr->data;
+        delete ptr;
+        cout<<"Node with data = "<<temp<<" was deleted"<<endl;
+        return;
+    }
+};
+void RemoveDuplicates(Node *ptr){ // will work only in sorted
+    Node* follower = new Node;
+    follower->data = NULL; // why this?
+    follower->next = NULL; // because we need something to compare with at first
+    while(ptr != NULL){
+        if( follower->data != ptr->data || follower->data == NULL ){
+            follower = ptr;
+            ptr = ptr->next;
+        } else{
+            follower->next = ptr->next;
+            free(ptr);
+            ptr = follower->next;
+        }
+    }
+};
+void Reverse(Node *p){
+    Node* q = NULL;
+    Node* r = NULL;
+    while( p != NULL){
+        r = q;
+        q = p;
+        p = p->next;
+        q->next = r;
+    };
+    head = q;
+};
+
 /*****************************************************************************************/
 
 // Recursive functions
@@ -178,6 +259,14 @@ int Rmax(Node * ptr){
         return temp;
     }
 };
+void RecReverse(Node * p, Node *q){
+    if( p != NULL){
+        RecReverse(p->next, p);
+        p->next = q;
+    } else {
+        head = q;
+    }
+}
 
 /*****************************************************************************************/
 
@@ -186,8 +275,12 @@ int main(){
     // create(A, 5);
     insertAtLast(1);
     insertAtLast(5);
+    insertAtLast(5);
     insertAtLast(7);
-    insertAtLast(3);
-    insertAtLast(2);
+    insertAtLast(8);
+    insertAtLast(8);
+    insertAtLast(9);
+    display(head);
+    RecReverse(head, NULL);
     display(head);
 }
