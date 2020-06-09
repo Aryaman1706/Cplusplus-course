@@ -88,44 +88,4 @@ void copyStack(Stack& A, Stack& B){
 };
 int main(){
     Stack S;
-    int changes = 0;
-    map<int, Stack> mymap;
-    int g;
-    cin>>g;
-    for(int q=0; q<g; q++){
-        int op;
-        cin>>op;
-        if(op == 1){
-            // append
-            string w;
-            cin>>w;
-            for(int i=0; i<w.length(); i++){
-                S.push(w[i]);
-            };
-            changes++;
-            Stack copy;
-            copyStack(copy, S);
-            mymap[changes] = copy;
-        }else if(op == 2){
-            // delete
-            int k;
-            cin>>k;
-            for(int j=0; j<k; j++){
-                S.pop();
-            };
-            changes++;
-            Stack copy;
-            copyStack(copy, S);
-            mymap[changes] = copy;
-        }else if( op == 3 ){
-            // print
-            int k2;
-            cin>>k2;
-            S.print(k2);            
-        }else {
-            // undo
-            changes--;
-            copyStack(S, mymap[changes]);
-        }
-    }
 }
